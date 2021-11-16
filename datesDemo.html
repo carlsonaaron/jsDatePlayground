@@ -1,0 +1,84 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>JS Date Demo</title>  
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" />
+</head>
+
+<body>
+    <div class="container sm mx-auto py-8 text-center">        
+        <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getUtcDateTime()">Get UTC DateTime</button>               
+        
+        <div class="mt-6">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getTimeZoneOffset()">Get TZ Offset</button>
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getTimeZoneCode()">Get TZ Code</button>
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onclick="getTimeZoneName()">Get TZ Name</button>
+        </div>
+
+        <div id="result" class="flex mt-6 border-solid border-2 border-gray-600 hidden mx-auto justify-center">            
+            <span id="label" class="mr-3 font-bold"></span>
+            <span id="val"></span>
+        </div>
+    
+
+    </div>
+
+  <script>
+      getUtcDateTime = () => {
+          const date = new Date();
+          setResult('DateTime (UTC)', date.toUTCString());
+      } 
+
+      getTimeZoneOffset = () => {
+        const date = new Date();
+        setResult('UTC Offset (minutes)', (- date.getTimezoneOffset()));
+      }
+
+      getUtcDate = () => {
+          const date = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+          setResult('UTC Date', date.toUTCString());
+      }
+      getLocalDate = () => {
+          const year = new Date().getFullYear();
+          const month = new Date().getMonth();
+          const date = new Date().getDate();
+          const hour = new Date().getHours();
+          const minutes = new Date().getMinutes();
+          const seconds = new Date().getSeconds();
+
+          const localDate = new Date(year, month, date, 0, 0, 0);
+          setResult('Local Date', localDate.toUTCString());
+      }
+
+      getTimeZoneCode = () => {
+        const date = new Date();
+        const timeString = date.toLocaleTimeString('en-us',{timeZoneName:'short'});
+        const zone = timeString.split(' ')[2];
+        setResult('Timezone Code', zone);
+      }
+
+      getTimeZoneName = () => {
+        const name = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        setResult('Timezone Name', name);
+      }
+
+      setResult = (label, val) => {
+        document.getElementById("result").classList.remove("hidden");
+        document.getElementById("label").innerHTML = label + ': ';
+        document.getElementById("val").innerHTML = val;
+      }
+  </script>
+
+  <style>
+      #result {
+          width: 500px;
+      }
+      
+  </style>
+</body>
+</html>
